@@ -129,6 +129,26 @@
     }
 ]
                                 </script>
+                                
+                                <script>
+                                    // Render featured offers
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        const offersData = JSON.parse(document.getElementById('offers-data').textContent);
+                                        const offersGrid = document.querySelector('.offers-grid');
+                                        
+                                        offersGrid.innerHTML = offersData.map(offer => `
+                                            <div class="offer-card scroll-reveal-scale">
+                                                <a href="${offer.url}">
+                                                    <img src="${offer.image}" alt="${offer.title}" loading="lazy">
+                                                    <div class="offer-info">
+                                                        <h3>${offer.title}</h3>
+                                                        <p class="offer-price">${offer.price}</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        `).join('');
+                                    });
+                                </script>
                         </div>
                 </section>
 
