@@ -1,0 +1,36 @@
+{
+  "summary": {
+    "rating": 5.0,
+    "totalReviews": 24,
+    "googleUrl": "https://www.google.com/maps/place/YOUR_BUSINESS_ID"
+  },
+  "reviews": [
+    {
+      "id": 1,
+      "name": "Michał Kowalski",
+      "avatar": "M",
+      "date": "2 tygodnie temu",
+      "rating": 5,
+      "text": "Profesjonalna obsługa, sprowadzili mi BMW M3 z Japonii. Proces transparentny, wszystko zgodnie z opisem. Polecam!",
+      "visible": true
+    },
+    {
+      "id": 2,
+      "name": "Anna Nowak",
+      "avatar": "A",
+      "date": "1 miesiąc temu",
+      "rating": 5,
+      "text": "Kupiłam tu motocykl, wszystko przebiegło sprawnie. Kontakt świetny, pomocni na każdym etapie. Bardzo zadowolona z zakupu!",
+      "visible": true
+    },
+    {
+      "id": 3,
+      "name": "Piotr Wiśniewski",
+      "avatar": "P",
+      "date": "2 miesiące temu",
+      "rating": 5,
+      "text": "Najlepsza firma zajmująca się importem z Japonii. Uczciwe ceny, fachowa wiedza. Będę tu wracał!",
+      "visible": true
+    }
+  ]
+}

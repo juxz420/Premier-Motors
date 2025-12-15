@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Administracyjny - Opinie</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #0a0a0a;
+            margin-bottom: 10px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #dc0000;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #b00000;
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+
+        .summary-section {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        label {
+            font-weight: 600;
+            color: #333;
+            font-size: 0.9em;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1em;
+            font-family: inherit;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #dc0000;
+        }
+
+        .reviews-section {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .review-item {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .review-item:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .review-item.hidden {
+            opacity: 0.5;
+            background: #f9f9f9;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .review-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #dc0000;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2em;
+        }
+
+        .reviewer-details h3 {
+            font-size: 1.1em;
+            margin-bottom: 4px;
+        }
+
+        .review-meta {
+            font-size: 0.85em;
+            color: #666;
+        }
+
+        .review-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .toggle-visibility {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .toggle-visibility input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .review-text {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .stars {
+            color: #fbbc04;
+            font-size: 1.2em;
+        }
+
+        .btn-delete {
+            background: #f44336;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        .btn-delete:hover {
+            background: #d32f2f;
+        }
+
+        .add-review-form {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .add-review-form.active {
+            display: block;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-grid .full-width {
+            grid-column: 1 / -1;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .success-message {
+            background: #4caf50;
+            color: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Panel Administracyjny - Zarządzanie Opiniami</h1>
+            <p style="color: #666; margin-top: 8px;">Zarządzaj opiniami wyświetlanymi na stronie głównej</p>
+            <div class="header-actions">
+                <button class="btn btn-primary" onclick="toggleAddForm()">+ Dodaj nową opinię</button>
+                <button class="btn btn-secondary" onclick="saveChanges()">💾 Zapisz zmiany</button>
+                <a href="premier.html" class="btn btn-secondary" style="text-decoration: none;">← Powrót do strony</a>
+            </div>
+        </header>
+
+        <div id="success-message" class="success-message">
+            Zmiany zostały zapisane pomyślnie!
+        </div>
+
+        <div class="summary-section">
+            <h2>Podsumowanie opinii Google</h2>
+            <div class="summary-grid">
+                <div class="input-group">
+                    <label>Średnia ocena (1-5)</label>
+                    <input type="number" id="rating" step="0.1" min="1" max="5" value="5.0">
+                </div>
+                <div class="input-group">
+                    <label>Liczba opinii</label>
+                    <input type="number" id="totalReviews" min="0" value="24">
+                </div>
+                <div class="input-group">
+                    <label>Link do Google Maps</label>
+                    <input type="text" id="googleUrl" placeholder="https://www.google.com/maps/place/...">
+                </div>
+            </div>
+        </div>
+
+        <div class="add-review-form" id="addReviewForm">
+            <h3 style="margin-bottom: 15px;">Dodaj nową opinię</h3>
+            <div class="form-grid">
+                <div class="input-group">
+                    <label>Imię i nazwisko</label>
+                    <input type="text" id="newName" placeholder="Jan Kowalski">
+                </div>
+                <div class="input-group">
+                    <label>Avatar (pierwsza litera)</label>
+                    <input type="text" id="newAvatar" maxlength="1" placeholder="J">
+                </div>
+                <div class="input-group">
+                    <label>Data (np. "2 dni temu")</label>
+                    <input type="text" id="newDate" placeholder="2 dni temu">
+                </div>
+                <div class="input-group">
+                    <label>Ocena (1-5)</label>
+                    <input type="number" id="newRating" min="1" max="5" value="5">
+                </div>
+                <div class="input-group full-width">
+                    <label>Treść opinii</label>
+                    <textarea id="newText" placeholder="Świetna obsługa..."></textarea>
+                </div>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-primary" onclick="addReview()">Dodaj opinię</button>
+                <button class="btn btn-secondary" onclick="toggleAddForm()">Anuluj</button>
+            </div>
+        </div>
+
+        <div class="reviews-section">
+            <h2 style="margin-bottom: 20px;">Lista opinii (<span id="visibleCount">0</span> widocznych)</h2>
+            <div id="reviewsList"></div>
+        </div>
+    </div>
+
+    <script>
+        let reviewsData = {
+            summary: {
+                rating: 5.0,
+                totalReviews: 24,
+                googleUrl: ""
+            },
+            reviews: []
+        };
+
+        // Load data
+        async function loadReviews() {
+            try {
+                const response = await fetch('reviews-data.json');
+                reviewsData = await response.json();
+                
+                // Update summary fields
+                document.getElementById('rating').value = reviewsData.summary.rating;
+                document.getElementById('totalReviews').value = reviewsData.summary.totalReviews;
+                document.getElementById('googleUrl').value = reviewsData.summary.googleUrl;
+                
+                renderReviews();
+            } catch (error) {
+                console.error('Błąd ładowania opinii:', error);
+            }
+        }
+
+        function renderReviews() {
+            const container = document.getElementById('reviewsList');
+            const visibleCount = reviewsData.reviews.filter(r => r.visible).length;
+            document.getElementById('visibleCount').textContent = visibleCount;
+            
+            if (reviewsData.reviews.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666; padding: 40px;">Brak opinii. Dodaj pierwszą opinię powyżej.</p>';
+                return;
+            }
+            
+            container.innerHTML = reviewsData.reviews.map(review => `
+                <div class="review-item ${!review.visible ? 'hidden' : ''}">
+                    <div class="review-header">
+                        <div class="review-info">
+                            <div class="avatar">${review.avatar}</div>
+                            <div class="reviewer-details">
+                                <h3>${review.name}</h3>
+                                <div class="review-meta">
+                                    <span class="stars">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</span>
+                                    · ${review.date}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-actions">
+                            <label class="toggle-visibility">
+                                <input type="checkbox" ${review.visible ? 'checked' : ''} 
+                                       onchange="toggleVisibility(${review.id})">
+                                <span>Widoczna</span>
+                            </label>
+                            <button class="btn-delete" onclick="deleteReview(${review.id})">🗑️ Usuń</button>
+                        </div>
+                    </div>
+                    <p class="review-text">${review.text}</p>
+                </div>
+            `).join('');
+        }
+
+        function toggleVisibility(id) {
+            const review = reviewsData.reviews.find(r => r.id === id);
+            if (review) {
+                review.visible = !review.visible;
+                renderReviews();
+            }
+        }
+
+        function deleteReview(id) {
+            if (confirm('Czy na pewno chcesz usunąć tę opinię?')) {
+                reviewsData.reviews = reviewsData.reviews.filter(r => r.id !== id);
+                renderReviews();
+            }
+        }
+
+        function toggleAddForm() {
+            const form = document.getElementById('addReviewForm');
+            form.classList.toggle('active');
+        }
+
+        function addReview() {
+            const name = document.getElementById('newName').value.trim();
+            const avatar = document.getElementById('newAvatar').value.trim().toUpperCase();
+            const date = document.getElementById('newDate').value.trim();
+            const rating = parseInt(document.getElementById('newRating').value);
+            const text = document.getElementById('newText').value.trim();
+            
+            if (!name || !avatar || !date || !text) {
+                alert('Wypełnij wszystkie pola!');
+                return;
+            }
+            
+            const newId = reviewsData.reviews.length > 0 
+                ? Math.max(...reviewsData.reviews.map(r => r.id)) + 1 
+                : 1;
+            
+            reviewsData.reviews.unshift({
+                id: newId,
+                name: name,
+                avatar: avatar,
+                date: date,
+                rating: rating,
+                text: text,
+                visible: true
+            });
+            
+            // Clear form
+            document.getElementById('newName').value = '';
+            document.getElementById('newAvatar').value = '';
+            document.getElementById('newDate').value = '';
+            document.getElementById('newRating').value = '5';
+            document.getElementById('newText').value = '';
+            
+            toggleAddForm();
+            renderReviews();
+        }
+
+        function saveChanges() {
+            // Update summary
+            reviewsData.summary.rating = parseFloat(document.getElementById('rating').value);
+            reviewsData.summary.totalReviews = parseInt(document.getElementById('totalReviews').value);
+            reviewsData.summary.googleUrl = document.getElementById('googleUrl').value;
+            
+            // Convert to JSON
+            const json = JSON.stringify(reviewsData, null, 2);
+            
+            // Download file
+            const blob = new Blob([json], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'reviews-data.json';
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            // Show success message
+            const message = document.getElementById('success-message');
+            message.classList.add('show');
+            setTimeout(() => {
+                message.classList.remove('show');
+            }, 3000);
+            
+            alert('Zapisano! Plik reviews-data.json został pobrany.\n\nWAŻNE: Zastąp nim stary plik reviews-data.json w folderze strony.');
+        }
+
+        // Load on start
+        loadReviews();
+    </script>
+</body>
+</html>

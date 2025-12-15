@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "title": "PitBike YCF 150SM",
+    "price": "9500 zł",
+    "image": "https://via.placeholder.com/600x350?text=Honda+Civic+2018",
+    "url": "https://www.otomoto.pl/motocykle-i-quady/oferta/other-other-ID6HDdzU.html"
+  },
+  {
+    "id": 2,
+    "title": "Toyota Corolla 2017",
+    "price": "49 500 zł",
+    "image": "https://via.placeholder.com/600x350?text=Toyota+Corolla+2017",
+    "url": "https://www.otomoto.pl/oferta/sample-car-2"
+  },
+  {
+    "id": 3,
+    "title": "Ogłoszenie Otomoto",
+    "price": "32 000 zł",
+    "image": "https://via.placeholder.com/600x350?text=Oferta+Otomoto",
+    "url": "https://www.otomoto.pl/motocykle-i-quady/oferta/other-other-ID6HDdzU.html"
+  },
+  {
+    "id": 4,
+    "title": "BMW 320i 2016",
+    "price": "69 000 zł",
+    "image": "https://via.placeholder.com/600x350?text=BMW+320i+2016",
+    "url": "https://www.otomoto.pl/oferta/sample-car-4"
+  },
+  {
+    "id": 5,
+    "title": "Mazda 3 2019",
+    "price": "72 500 zł",
+    "image": "https://via.placeholder.com/600x350?text=Mazda+3+2019",
+    "url": "https://www.otomoto.pl/oferta/sample-car-5"
+  },
+  {
+    "id": 6,
+    "title": "Audi A4 2015",
+    "price": "54 900 zł",
+    "image": "https://via.placeholder.com/600x350?text=Audi+A4+2015",
+    "url": "https://www.otomoto.pl/oferta/sample-car-6"
+  }
+]
