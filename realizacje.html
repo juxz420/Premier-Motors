@@ -69,6 +69,9 @@
         </div>
     </header>
 
+    <!-- Mobile Menu Overlay -->
+    <div class="menu-overlay" onclick="toggleMobileMenu()"></div>
+
     <main>
         <!-- Breadcrumbs -->
         <div class="breadcrumbs-container">
@@ -125,7 +128,7 @@
                     </article>
 
                     <article class="realization-card">
-                        <h3>2014 R1200GS</h3>
+                        <h3>BMW R1200GS</h3>
                         <div class="realization-meta">
                             <span class="meta-item">Rocznik: 2014</span>
                             <span class="meta-item">Przebieg: 45 000 km</span>
@@ -145,7 +148,7 @@
                     </article>
 
                     <article class="realization-card">
-                        <h3>2016 R1200GS ADV</h3>
+                        <h3>BMW R1200GS ADV</h3>
                         <div class="realization-meta">
                             <span class="meta-item">Rocznik: 2016</span>
                             <span class="meta-item">Przebieg: 85 000 km</span>
@@ -222,7 +225,6 @@
             var imgs = Array.from(track.querySelectorAll('img'));
             if (!imgs.length) return;
             var idx = 0;
-            imgs.forEach(function (img, i) { img.classList.toggle('active', i === 0); });
             var intervalMs = parseInt(carousel.dataset.interval, 10) || 5000;
             var timer = setInterval(next, intervalMs);
 
@@ -251,7 +253,7 @@
 
             function show(n) {
                 idx = (n + imgs.length) % imgs.length;
-                imgs.forEach(function (img, i) { img.classList.toggle('active', i === idx); });
+                track.style.transform = 'translateX(-' + (idx * 100) + '%)';
                 counter.textContent = (idx + 1) + '/' + imgs.length;
                 // Update thumbnails
                 var thumbs = thumbnails.querySelectorAll('.carousel-thumbnail');
@@ -263,8 +265,18 @@
             function prev() { show(idx - 1); }
             function restart() { clearInterval(timer); timer = setInterval(next, intervalMs); }
 
-            if (prevBtn) prevBtn.addEventListener('click', function (e) { e.stopPropagation(); prev(); restart(); });
-            if (nextBtn) nextBtn.addEventListener('click', function (e) { e.stopPropagation(); next(); restart(); });
+            if (prevBtn) prevBtn.addEventListener('click', function (e) { 
+                e.preventDefault();
+                e.stopPropagation(); 
+                prev(); 
+                restart(); 
+            });
+            if (nextBtn) nextBtn.addEventListener('click', function (e) { 
+                e.preventDefault();
+                e.stopPropagation(); 
+                next(); 
+                restart(); 
+            });
 
             carousel.addEventListener('mouseenter', function () { clearInterval(timer); });
             carousel.addEventListener('mouseleave', function () { restart(); });
@@ -291,6 +303,7 @@
                 if (e.touches.length === 1) {
                     touchState.startX = e.touches[0].clientX;
                     touchState.startY = e.touches[0].clientY;
+                    touchState.currentX = e.touches[0].clientX;
                     touchState.isDragging = true;
                     clearInterval(timer);
                 } else if (e.touches.length === 2) {
@@ -305,14 +318,6 @@
             carousel.addEventListener('touchmove', function (e) {
                 if (e.touches.length === 1 && touchState.isDragging) {
                     touchState.currentX = e.touches[0].clientX;
-                    var deltaX = touchState.currentX - touchState.startX;
-                    
-                    // Visual feedback during swipe
-                    var currentImg = imgs[idx];
-                    if (Math.abs(deltaX) > 10) {
-                        currentImg.style.transform = 'translateX(' + (deltaX * 0.3) + 'px)';
-                        currentImg.style.transition = 'none';
-                    }
                 } else if (e.touches.length === 2) {
                     // Pinch to zoom
                     e.preventDefault();
@@ -336,17 +341,38 @@
             }, {passive: false});
 
             carousel.addEventListener('touchend', function (e) {
+                var now = Date.now();
+                var timeSince = now - touchState.lastTap;
+                
                 if (touchState.isDragging && e.changedTouches.length === 1) {
                     var deltaX = touchState.currentX - touchState.startX;
                     var deltaY = Math.abs(e.changedTouches[0].clientY - touchState.startY);
                     var currentImg = imgs[idx];
                     
-                    // Reset visual feedback
-                    currentImg.style.transform = '';
-                    currentImg.style.transition = '';
-                    
-                    // Swipe threshold: 50px horizontal, max 100px vertical
-                    if (Math.abs(deltaX) > 50 && deltaY < 100) {
+                    // Check for double tap
+                    if (timeSince < 300 && timeSince > 0 && Math.abs(deltaX) < 10) {
+                        // Double tap detected (no swipe movement)
+                        e.preventDefault();
+                        
+                        if (currentImg.classList.contains('zoomed')) {
+                            // Zoom out
+                            currentImg.style.transition = 'transform 0.3s ease';
+                            currentImg.style.transform = '';
+                            setTimeout(function() {
+                                currentImg.classList.remove('zoomed');
+                                currentImg.style.transition = '';
+                            }, 300);
+                        } else {
+                            // Zoom in
+                            currentImg.classList.add('zoomed');
+                            currentImg.style.transition = 'transform 0.3s ease';
+                            currentImg.style.transform = 'scale(2)';
+                            setTimeout(function() {
+                                currentImg.style.transition = '';
+                            }, 300);
+                        }
+                    } else if (Math.abs(deltaX) > 50 && deltaY < 100) {
+                        // Swipe threshold: 50px horizontal, max 100px vertical
                         if (deltaX < 0) {
                             next();
                         } else {
@@ -365,36 +391,6 @@
                         currentImg.classList.remove('zoomed');
                         currentImg.style.transition = '';
                     }, 300);
-                }
-            });
-
-            // Double tap to zoom
-            carousel.addEventListener('touchend', function (e) {
-                var now = Date.now();
-                var timeSince = now - touchState.lastTap;
-                
-                if (timeSince < 300 && timeSince > 0) {
-                    // Double tap detected
-                    e.preventDefault();
-                    var currentImg = imgs[idx];
-                    
-                    if (currentImg.classList.contains('zoomed')) {
-                        // Zoom out
-                        currentImg.style.transition = 'transform 0.3s ease';
-                        currentImg.style.transform = '';
-                        setTimeout(function() {
-                            currentImg.classList.remove('zoomed');
-                            currentImg.style.transition = '';
-                        }, 300);
-                    } else {
-                        // Zoom in
-                        currentImg.classList.add('zoomed');
-                        currentImg.style.transition = 'transform 0.3s ease';
-                        currentImg.style.transform = 'scale(2)';
-                        setTimeout(function() {
-                            currentImg.style.transition = '';
-                        }, 300);
-                    }
                 }
                 
                 touchState.lastTap = now;
@@ -510,8 +506,11 @@
         function toggleMobileMenu() {
             const nav = document.querySelector('header nav');
             const hamburger = document.querySelector('.hamburger');
+            const overlay = document.querySelector('.menu-overlay');
+            
             nav.classList.toggle('active');
             hamburger.classList.toggle('active');
+            overlay.classList.toggle('active');
         }
 
         // Close mobile menu when clicking on a link
@@ -537,6 +536,34 @@
     </div>
     
     <script src="script.js" defer></script>
+    
+    <!-- Bottom Navigation (Mobile Only) -->
+    <nav class="bottom-nav">
+        <a href="premier.html" class="bottom-nav-item">
+            <svg viewBox="0 0 24 24" width="24" height="24">
+                <path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+            </svg>
+            <span>Home</span>
+        </a>
+        <a href="oferty.html" class="bottom-nav-item">
+            <svg viewBox="0 0 24 24" width="24" height="24">
+                <path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+            </svg>
+            <span>Oferty</span>
+        </a>
+        <a href="realizacje.html" class="bottom-nav-item active">
+            <svg viewBox="0 0 24 24" width="24" height="24">
+                <path fill="currentColor" d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+            </svg>
+            <span>Realizacje</span>
+        </a>
+        <a href="premier.html#contact" class="bottom-nav-item">
+            <svg viewBox="0 0 24 24" width="24" height="24">
+                <path fill="currentColor" d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+            </svg>
+            <span>Kontakt</span>
+        </a>
+    </nav>
 </body>
 </html>
 
