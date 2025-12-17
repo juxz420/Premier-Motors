@@ -228,10 +228,36 @@
 
             var prevBtn = carousel.querySelector('.carousel-prev');
             var nextBtn = carousel.querySelector('.carousel-next');
+            
+            // Add counter
+            var counter = document.createElement('div');
+            counter.className = 'carousel-counter';
+            counter.textContent = '1/' + imgs.length;
+            carousel.appendChild(counter);
+            
+            // Add thumbnails
+            var thumbnails = document.createElement('div');
+            thumbnails.className = 'carousel-thumbnails';
+            imgs.forEach(function(img, i) {
+                var thumb = document.createElement('div');
+                thumb.className = 'carousel-thumbnail' + (i === 0 ? ' active' : '');
+                thumb.addEventListener('click', function() {
+                    show(i);
+                    restart();
+                });
+                thumbnails.appendChild(thumb);
+            });
+            carousel.appendChild(thumbnails);
 
             function show(n) {
                 idx = (n + imgs.length) % imgs.length;
                 imgs.forEach(function (img, i) { img.classList.toggle('active', i === idx); });
+                counter.textContent = (idx + 1) + '/' + imgs.length;
+                // Update thumbnails
+                var thumbs = thumbnails.querySelectorAll('.carousel-thumbnail');
+                thumbs.forEach(function(thumb, i) {
+                    thumb.classList.toggle('active', i === idx);
+                });
             }
             function next() { show(idx + 1); }
             function prev() { show(idx - 1); }

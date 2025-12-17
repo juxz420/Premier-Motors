@@ -1677,3 +1677,345 @@ img {
     }
 }
 
+/* ============================================
+   MOBILE ENHANCEMENTS
+   ============================================ */
+
+/* Bottom Navigation Bar - Mobile Only */
+.bottom-nav {
+    display: none; /* Hidden on desktop */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 1000;
+    padding: 8px 0 max(8px, env(safe-area-inset-bottom));
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.bottom-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    font-size: 11px;
+    padding: 6px 4px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.bottom-nav-item svg {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 4px;
+    transition: transform 0.3s ease;
+}
+
+.bottom-nav-item span {
+    font-weight: 500;
+    letter-spacing: 0.3px;
+}
+
+.bottom-nav-item.active {
+    color: #dc0000;
+}
+
+.bottom-nav-item.active::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 3px;
+    background: #dc0000;
+    border-radius: 0 0 3px 3px;
+}
+
+.bottom-nav-item:active svg {
+    transform: scale(0.9);
+}
+
+/* Floating Action Buttons - Mobile Only */
+.floating-buttons {
+    display: none; /* Hidden on desktop */
+    position: fixed;
+    bottom: calc(70px + env(safe-area-inset-bottom));
+    right: 16px;
+    z-index: 999;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.fab-button {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    animation: fabPulse 2s ease-in-out infinite;
+}
+
+.fab-phone {
+    background: linear-gradient(135deg, #00c853 0%, #00e676 100%);
+    color: white;
+}
+
+.fab-whatsapp {
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+    color: white;
+}
+
+.fab-button:hover, 
+.fab-button:active {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    animation: none;
+}
+
+@keyframes fabPulse {
+    0%, 100% {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    50% {
+        box-shadow: 0 4px 20px rgba(220, 0, 0, 0.6);
+    }
+}
+
+/* Mobile Hero Improvements */
+.hero-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    color: white;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.hero-subtitle {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.5;
+}
+
+.hero-cta {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.btn-large {
+    padding: 16px 32px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 8px;
+    min-width: 160px;
+    text-align: center;
+}
+
+.btn-primary {
+    background: #dc0000;
+    color: white;
+    box-shadow: 0 4px 12px rgba(220, 0, 0, 0.4);
+}
+
+.btn-primary:hover {
+    background: #b30000;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(220, 0, 0, 0.5);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Enhanced Card Layout - Mobile */
+.offer-card {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.offer-card img {
+    height: 220px;
+}
+
+.offer-info {
+    padding: 20px;
+}
+
+.offer-info h3 {
+    font-size: 1.3em;
+    margin-bottom: 12px;
+}
+
+.offer-price {
+    font-size: 1.4em;
+    font-weight: 800;
+}
+
+/* Gallery Improvements */
+.carousel {
+    position: relative;
+}
+
+.carousel-counter {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: 600;
+    z-index: 5;
+    backdrop-filter: blur(10px);
+}
+
+.carousel-btn {
+    width: 48px;
+    height: 48px;
+    font-size: 2em;
+}
+
+.carousel-thumbnails {
+    display: none;
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    gap: 6px;
+    z-index: 5;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+}
+
+.carousel-thumbnail {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.carousel-thumbnail.active {
+    background: white;
+    width: 24px;
+    border-radius: 4px;
+}
+
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+    /* Show mobile navigation */
+    .bottom-nav {
+        display: flex;
+    }
+    
+    .floating-buttons {
+        display: flex;
+    }
+    
+    /* Add padding for bottom nav */
+    main {
+        padding-bottom: 80px;
+    }
+    
+    /* Mobile Typography */
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .btn-large {
+        padding: 14px 24px;
+        font-size: 1rem;
+        min-width: 140px;
+    }
+    
+    .hero-cta {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .hero-cta .btn {
+        width: 100%;
+    }
+    
+    /* Card improvements */
+    .offers-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .offer-card {
+        margin: 0 -10px;
+    }
+    
+    .offer-card img {
+        height: 240px;
+    }
+    
+    .offer-info {
+        padding: 24px;
+    }
+    
+    .offer-price {
+        font-size: 1.6em;
+    }
+    
+    /* Show thumbnails on mobile */
+    .carousel-thumbnails {
+        display: flex;
+    }
+    
+    /* Larger touch targets */
+    .carousel-btn {
+        width: 56px;
+        height: 56px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 1.75rem;
+    }
+    
+    .offer-card {
+        margin: 0;
+    }
+    
+    .floating-buttons {
+        right: 12px;
+        bottom: calc(60px + env(safe-area-inset-bottom));
+    }
+    
+    .fab-button {
+        width: 52px;
+        height: 52px;
+    }
+}
