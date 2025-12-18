@@ -30,6 +30,18 @@ body {
     color: var(--text-dark);
     background-color: #ffffff;
     overflow-x: hidden;
+    animation: pageLoad 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes pageLoad {
+    from {
+        opacity: 0;
+        filter: blur(10px);
+    }
+    to {
+        opacity: 1;
+        filter: blur(0);
+    }
 }
 
 @keyframes fadeInDown {
@@ -48,6 +60,74 @@ body {
         opacity: 0;
         transform: translateY(30px);
     }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
     to {
         opacity: 1;
         transform: translateY(0);
@@ -260,22 +340,38 @@ header {
     position: sticky;
     top: 0;
     z-index: 100;
-    backdrop-filter: blur(15px) saturate(180%);
-    -webkit-backdrop-filter: blur(15px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(200%);
+    -webkit-backdrop-filter: blur(20px) saturate(200%);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    animation: fadeInDown 0.3s ease-out;
-    transition: box-shadow 0.3s ease, background 0.3s ease;
+    animation: slideInFromTop 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     transform: translateZ(0);
     min-height: 90px;
     display: flex;
     align-items: center;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes slideInFromTop {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 header.scrolled {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    background: rgba(10, 10, 10, 0.85);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(30px) saturate(220%);
+    -webkit-backdrop-filter: blur(30px) saturate(220%);
     min-height: 70px;
+    border-bottom: 1px solid rgba(220, 0, 0, 0.3);
 }
+
 
 .header-container {
     max-width: 1400px;
@@ -284,12 +380,14 @@ header.scrolled {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 80px;
+    gap: 120px;
 }
 
 .header-brand {
     display: flex;
     align-items: center;
+    flex: 0 0 auto;
+    margin-right: auto;
 }
 
 .logo-link {
@@ -336,6 +434,53 @@ header nav a {
     font-weight: 300;
     letter-spacing: 1px;
     text-transform: uppercase;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    padding: 8px 0;
+}
+
+header nav a::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--primary-red), transparent);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateX(-50%);
+}
+
+header nav a::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(220, 0, 0, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translate(-50%, -50%);
+    z-index: -1;
+}
+
+header nav a:hover {
+    color: var(--primary-red);
+    transform: translateY(-2px);
+    text-shadow: 0 0 20px rgba(220, 0, 0, 0.3);
+}
+
+header nav a:hover::before {
+    width: 100%;
+}
+
+header nav a:hover::after {
+    width: 120%;
+    height: 120%;
+}
+    letter-spacing: 1px;
+    text-transform: uppercase;
     transition: color 0.4s ease;
     position: relative;
 }
@@ -357,6 +502,34 @@ header nav a:hover {
 
 header nav a:hover::after {
     width: 100%;
+}
+
+/* Close Menu Button */
+.close-menu {
+    display: none;
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    z-index: 1002;
+    transition: all 0.3s ease;
+}
+
+.close-menu svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.close-menu:hover {
+    opacity: 0.6;
+    transform: rotate(90deg);
 }
 
 /* Hamburger Menu */
@@ -397,9 +570,10 @@ header nav a:hover::after {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
+    z-index: 999;
     opacity: 0;
     transition: opacity 0.4s ease;
+    pointer-events: none;
 }
 
 .menu-overlay.active {
@@ -410,6 +584,8 @@ header nav a:hover::after {
 .hero {
     height: 100vh;
     background: linear-gradient(135deg, var(--primary-black) 0%, #1a0000 100%);
+    background-size: 200% 200%;
+    animation: gradientShift 15s ease infinite;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -427,8 +603,9 @@ header nav a:hover::after {
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(circle at 30% 50%, rgba(220, 0, 0, 0.1) 0%, transparent 50%);
+    background: radial-gradient(circle at 30% 50%, rgba(220, 0, 0, 0.15) 0%, transparent 50%);
     pointer-events: none;
+    animation: float 8s ease-in-out infinite;
 }
 
 /* Video background for hero */
@@ -441,13 +618,24 @@ header nav a:hover::after {
     object-fit: cover;
     z-index: 0;
     opacity: 0.4;
+    transform: scale(1.1);
+    animation: slowZoom 30s ease-in-out infinite alternate;
+}
+
+@keyframes slowZoom {
+    from {
+        transform: scale(1.1);
+    }
+    to {
+        transform: scale(1.2);
+    }
 }
 
 .hero-content {
     text-align: center;
     position: relative;
     z-index: 2;
-    animation: fadeInUp 1.2s ease-out;
+    animation: fadeInUp 1.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .hero-content h2 {
@@ -457,6 +645,11 @@ header nav a:hover::after {
     font-weight: 800;
     letter-spacing: 4px;
     line-height: 1.1;
+    background: linear-gradient(135deg, #ffffff 0%, #dc0000 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1), shimmer 3s ease-in-out infinite;
 }
 
 .hero-content p {
@@ -464,7 +657,7 @@ header nav a:hover::after {
     color: #ccc;
     letter-spacing: 2px;
     font-weight: 300;
-    animation: fadeInUp 1.4s ease-out;
+    animation: fadeInUp 1.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 main {
@@ -840,7 +1033,32 @@ footer {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
     overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.offer-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(220, 0, 0, 0) 0%, rgba(220, 0, 0, 0.05) 100%);
+    opacity: 0;
+    transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.offer-card:hover::before {
+    opacity: 1;
+}
+
+.offer-card:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(220, 0, 0, 0.3);
+    border-color: rgba(220, 0, 0, 0.3);
 }
 
 .offer-card img {
@@ -848,7 +1066,11 @@ footer {
     height: 180px;
     object-fit: cover;
     display: block;
-    transition: transform 0.3s ease;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.offer-card:hover img {
+    transform: scale(1.1);
 }
 
 .offer-info {
@@ -1357,12 +1579,17 @@ footer {
     cursor: pointer;
     font-size: 20px;
     line-height: 1;
+    z-index: 10;
+    transition: all 0.3s ease;
 }
 
 .carousel-prev { left: 12px; }
 .carousel-next { right: 12px; }
 
-.carousel-btn:hover { background: rgba(0,0,0,0.65); }
+.carousel-btn:hover { 
+    background: rgba(0,0,0,0.8);
+    transform: translateY(-50%) scale(1.1);
+}
 
 @media (max-width: 900px) {
     .carousel { padding-top: 66.66%; }
@@ -1782,27 +2009,68 @@ img {
 }
 
 .btn-primary {
-    background: #dc0000;
+    background: linear-gradient(135deg, #dc0000 0%, #b30000 100%);
     color: white;
-    box-shadow: 0 4px 12px rgba(220, 0, 0, 0.4);
+    box-shadow: 0 8px 24px rgba(220, 0, 0, 0.4);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn-primary:hover::before {
+    width: 300px;
+    height: 300px;
 }
 
 .btn-primary:hover {
-    background: #b30000;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(220, 0, 0, 0.5);
+    background: linear-gradient(135deg, #ff0000 0%, #dc0000 100%);
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 12px 32px rgba(220, 0, 0, 0.6);
 }
 
 .btn-secondary {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.1);
     color: white;
     border: 2px solid rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(10px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-secondary::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn-secondary:hover::after {
+    left: 100%;
 }
 
 .btn-secondary:hover {
     background: rgba(255, 255, 255, 0.25);
-    border-color: rgba(255, 255, 255, 0.5);
+    border-color: rgba(220, 0, 0, 0.6);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
 /* Enhanced Card Layout - Mobile */
@@ -1885,27 +2153,79 @@ img {
 
 /* Mobile-specific styles */
 @media (max-width: 768px) {
-    /* Hide header navigation on mobile */
+    /* Header adjustments for mobile */
+    .header-container {
+        padding: 0 20px;
+        gap: 20px;
+        justify-content: space-between;
+    }
+    
+    .header-brand {
+        flex: 1;
+        margin-right: 0;
+    }
+    
+    .header-brand h1 {
+        font-size: 1.3em;
+        letter-spacing: 1px;
+    }
+    
+    /* Show hamburger and slide-in menu on mobile */
     header nav {
-        display: none !important;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background: var(--primary-black);
+        flex-direction: column;
+        padding: 120px 30px 30px;
+        gap: 30px;
+        transition: right 0.4s ease;
+        box-shadow: -4px 0 20px rgba(0, 0, 0, 0.3);
+        z-index: 1001;
+        display: flex;
+    }
+
+    header nav.active {
+        right: 0;
+    }
+
+    header nav ul {
+        flex-direction: column;
+        gap: 25px;
+        width: 100%;
+        align-items: flex-start;
+    }
+
+    header nav li {
+        width: 100%;
+    }
+
+    header nav a {
+        font-size: 1.1em;
+        display: block;
+        padding: 12px 0;
+        width: 100%;
+        text-align: left;
     }
 
     .hamburger {
-        display: none !important;
-    }
-    
-    .menu-overlay {
-        display: none !important;
+        display: flex !important;
     }
 
-    /* Show mobile navigation */
+    .close-menu {
+        display: block;
+    }
+
+    /* Hide bottom navigation */
     .bottom-nav {
-        display: flex;
+        display: none;
     }
     
-    /* Add padding for bottom nav */
+    /* Remove padding for bottom nav */
     main {
-        padding-bottom: 80px;
+        padding-bottom: 0;
     }
     
     /* Mobile Typography */

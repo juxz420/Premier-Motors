@@ -2,17 +2,18 @@
   const offersUrl = 'offers.json';
 
   async function fetchOffers() {
-    
+    // On file:// protocol, only use inline data
     if (location.protocol === 'file:') {
       try {
         const inline = document.getElementById('offers-data');
         if (inline) return JSON.parse(inline.textContent);
       } catch (err) {
         console.error('Failed to parse inline offers data:', err);
-        return [];
       }
+      return [];
     }
 
+    // On http/https, try to fetch from server
     try {
       const res = await fetch(offersUrl, {cache: 'no-store'});
       if (res.ok) return await res.json();
@@ -21,6 +22,7 @@
       console.warn('Fetch offers failed. Falling back to inline data. Error:', err && err.message);
     }
 
+    // Fallback to inline data
     try {
       const inline = document.getElementById('offers-data');
       if (inline) return JSON.parse(inline.textContent);

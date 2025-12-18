@@ -34,10 +34,9 @@
     </script>
     
     <title>Premier Motors - Motoryzacja Premium</title>
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
-    
+    <!-- <link rel="manifest" href="manifest.json"> -->
+    <!-- Icons disabled for local development -->
+
     <!-- Preconnect for faster font loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -79,6 +78,12 @@
                 <h1><a href="index.html" style="color:inherit; text-decoration:none;">Premier Motors</a></h1>
             </div>
             <nav>
+                <button class="close-menu" onclick="toggleMobileMenu()" aria-label="Zamknij menu">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
                 <ul>
                     <li><a href="realizacje.html">Realizacje</a></li>
                     <li><a href="oferty.html">Oferty</a></li>
@@ -166,20 +171,6 @@
                         <h2>O Nas</h2>
                         <p>W Premier Motors wierzymy, że motoryzacja to coś więcej niż zakup pojazdu. To spełnienie marzeń, emocje i historia, którą tworzymy wspólnie z Tobą. Pomagamy wybrać samochód lub motocykl idealnie dopasowany do Twoich oczekiwań, stylu życia i pasji.</p>
                         <p>Nasza współpraca nie kończy się na przekazaniu kluczyków, to dopiero początek drogi. Zapraszamy Cię do świata Premier Motors, miejsca stworzonego dla ludzi, którzy kochają motoryzację tak samo jak my.</p>
-                    </div>
-                    <div class="about-features scroll-reveal-right">
-                        <div class="feature">
-                            <h3>Przykład</h3>
-                            <p>Przykład</p>
-                        </div>
-                        <div class="feature">
-                            <h3>Przykład</h3>
-                            <p>Przykład</p>
-                        </div>
-                        <div class="feature">
-                            <h3>Przykład</h3>
-                            <p>Przykład</p>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -438,8 +429,8 @@
             observer.observe(el);
         });
 
-        // Register Service Worker for PWA
-        if ('serviceWorker' in navigator) {
+        // Service Worker only works on http/https, not file://
+        if ('serviceWorker' in navigator && location.protocol !== 'file:') {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/service-worker.js')
                     .then(registration => {
@@ -536,15 +527,24 @@
             overlay.classList.toggle('active');
         }
 
-        // Close mobile menu when clicking on a link
-        document.querySelectorAll('nav a').forEach(link => {
-            link.addEventListener('click', () => {
-                const nav = document.querySelector('nav');
-                const hamburger = document.querySelector('.hamburger');
-                nav.classList.remove('active');
-                hamburger.classList.remove('active');
+        // Close menu when clicking on nav links
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('header nav a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // Don't prevent default - let the link work
+                    // Just close the menu
+                    const nav = document.querySelector('nav');
+                    const hamburger = document.querySelector('.hamburger');
+                    const overlay = document.querySelector('.menu-overlay');
+                    
+                    nav.classList.remove('active');
+                    hamburger.classList.remove('active');
+                    overlay.classList.remove('active');
+                });
             });
         });
+
     </script>
     <script src="script.js" defer></script>
     
@@ -577,3 +577,4 @@
     </nav>
 </body>
 </html>
+

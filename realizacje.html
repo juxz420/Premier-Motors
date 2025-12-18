@@ -33,9 +33,15 @@
     </script>
     
     <title>Realizacje - Premier Motors</title>
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+    <!-- <link rel="manifest" href="manifest.json"> -->
+    <!-- Icons disabled for local development -->
+    
+    <!-- Performance: Preload critical images -->
+    <link rel="preload" as="image" href="images/realizacje/panigale/IMG_9632.jpg" fetchpriority="high">
+    <link rel="preload" as="image" href="images/realizacje/harley/IMG_9280.JPG">
+    <link rel="preload" as="image" href="images/realizacje/gs/IMG_5912.JPG">
+    <link rel="preload" as="image" href="images/realizacje/gs-adv/IMG_9729.jpg">
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
     
     <!-- Preconnect for faster font loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -61,12 +67,18 @@
                 <span></span>
             </div>
             <nav>
+                <button class="close-menu" onclick="toggleMobileMenu()" aria-label="Zamknij menu">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
                 <ul>
                     <li><a href="realizacje.html">Realizacje</a></li>
                     <li><a href="oferty.html">Oferty</a></li>
-                    <li><a href="premier.html#about">O nas</a></li>
-                    <li><a href="premier.html#reviews">Opinie</a></li>
-                    <li><a href="premier.html#contact">Kontakt</a></li>
+                    <li><a href="index.html#about">O nas</a></li>
+                    <li><a href="index.html#reviews">Opinie</a></li>
+                    <li><a href="index.html#contact">Kontakt</a></li>
                 </ul>
             </nav>
         </div>
@@ -99,11 +111,11 @@
                         </div>
                             <div class="carousel" tabindex="0" data-interval="5000">
                                 <div class="carousel-track">
-                                <img src="images/realizacje/panigale/IMG_9632.jpg" alt="Pangile v2 photo 1" loading="lazy">
-                                <img src="images/realizacje/panigale/IMG_9639.jpg" alt="Pangile v2 photo 2" loading="lazy">
-                                <img src="images/realizacje/panigale/IMG_9670.jpg" alt="Pangile v2 photo 3" loading="lazy">
-                                <img src="images/realizacje/panigale/IMG_9631.jpg" alt="Pangile v2 photo 4" loading="lazy">
-                                <img src="images/realizacje/panigale/IMG_9684.jpg" alt="Pangile v2 photo 5" loading="lazy">
+                                <img src="images/realizacje/panigale/IMG_9632.jpg" alt="Pangile v2 photo 1" loading="eager" decoding="async" fetchpriority="high">
+                                <img src="images/realizacje/panigale/IMG_9639.jpg" alt="Pangile v2 photo 2" loading="lazy" decoding="async">
+                                <img src="images/realizacje/panigale/IMG_9670.jpg" alt="Pangile v2 photo 3" loading="lazy" decoding="async">
+                                <img src="images/realizacje/panigale/IMG_9631.jpg" alt="Pangile v2 photo 4" loading="lazy" decoding="async">
+                                <img src="images/realizacje/panigale/IMG_9684.jpg" alt="Pangile v2 photo 5" loading="lazy" decoding="async">
                                 </div>
                                 <button class="carousel-btn carousel-prev" aria-label="Poprzednie">‹</button>
                                 <button class="carousel-btn carousel-next" aria-label="Następne">›</button>
@@ -119,11 +131,11 @@
                         </div>
                             <div class="carousel" tabindex="0" data-interval="5000">
                                 <div class="carousel-track">
-                                <img src="images/realizacje/harley/IMG_9280.JPG" alt="harley 1" loading="lazy">
-                                <img src="images/realizacje/harley/IMG_9322.JPG" alt="harley 2" loading="lazy">
-                                <img src="images/realizacje/harley/IMG_9303.JPG" alt="harley 3" loading="lazy">
-                                <img src="images/realizacje/harley/IMG_9299.JPG" alt="harley 4" loading="lazy">
-                                <img src="images/realizacje/harley/IMG_9296.JPG" alt="harley 5" loading="lazy">
+                                <img src="images/realizacje/harley/IMG_9280.JPG" alt="harley 1" loading="lazy" decoding="async">
+                                <img src="images/realizacje/harley/IMG_9322.JPG" alt="harley 2" loading="lazy" decoding="async">
+                                <img src="images/realizacje/harley/IMG_9303.JPG" alt="harley 3" loading="lazy" decoding="async">
+                                <img src="images/realizacje/harley/IMG_9299.JPG" alt="harley 4" loading="lazy" decoding="async">
+                                <img src="images/realizacje/harley/IMG_9296.JPG" alt="harley 5" loading="lazy" decoding="async">
                                 </div>
                                 <button class="carousel-btn carousel-prev" aria-label="Poprzednie">‹</button>
                                 <button class="carousel-btn carousel-next" aria-label="Następne">›</button>
@@ -139,11 +151,11 @@
                         </div>
                             <div class="carousel" tabindex="0" data-interval="5000">
                                 <div class="carousel-track">
-                                <img src="images/realizacje/gs/IMG_5912.JPG" alt="gs 1" loading="lazy">
-                                <img src="images/realizacje/gs/IMG_5913.JPG" alt="gs 2" loading="lazy">
-                                <img src="images/realizacje/gs/IMG_5920.JPG" alt="gs 3" loading="lazy">
-                                <img src="images/realizacje/gs/IMG_5926.JPG" alt="gs 4" loading="lazy">
-                                <img src="images/realizacje/gs/IMG_5918.JPG" alt="gs 5" loading="lazy">
+                                <img src="images/realizacje/gs/IMG_5912.JPG" alt="gs 1" loading="lazy" decoding="async">
+                                <img src="images/realizacje/gs/IMG_5913.JPG" alt="gs 2" loading="lazy" decoding="async">
+                                <img src="images/realizacje/gs/IMG_5920.JPG" alt="gs 3" loading="lazy" decoding="async">
+                                <img src="images/realizacje/gs/IMG_5926.JPG" alt="gs 4" loading="lazy" decoding="async">
+                                <img src="images/realizacje/gs/IMG_5918.JPG" alt="gs 5" loading="lazy" decoding="async">
                                 </div>
                                 <button class="carousel-btn carousel-prev" aria-label="Poprzednie">‹</button>
                                 <button class="carousel-btn carousel-next" aria-label="Następne">›</button>
@@ -159,11 +171,11 @@
                         </div>
                             <div class="carousel" tabindex="0" data-interval="5000">
                                 <div class="carousel-track">
-                                <img src="images/realizacje/gs-adv/IMG_9729.jpg" alt="BMW 1" loading="lazy">
-                                <img src="images/realizacje/gs-adv/IMG_9733.jpg" alt="BMW 2" loading="lazy">
-                                <img src="images/realizacje/gs-adv/IMG_9750.jpg" alt="BMW 3" loading="lazy">
-                                <img src="images/realizacje/gs-adv/IMG_9764.jpg" alt="BMW 4" loading="lazy">
-                                <img src="images/realizacje/gs-adv/IMG_9811.jpg" alt="BMW 5" loading="lazy">
+                                <img src="images/realizacje/gs-adv/IMG_9729.jpg" alt="BMW 1" loading="lazy" decoding="async">
+                                <img src="images/realizacje/gs-adv/IMG_9733.jpg" alt="BMW 2" loading="lazy" decoding="async">
+                                <img src="images/realizacje/gs-adv/IMG_9750.jpg" alt="BMW 3" loading="lazy" decoding="async">
+                                <img src="images/realizacje/gs-adv/IMG_9764.jpg" alt="BMW 4" loading="lazy" decoding="async">
+                                <img src="images/realizacje/gs-adv/IMG_9811.jpg" alt="BMW 5" loading="lazy" decoding="async">
                                 </div>
                                 <button class="carousel-btn carousel-prev" aria-label="Poprzednie">‹</button>
                                 <button class="carousel-btn carousel-next" aria-label="Następne">›</button>
@@ -421,8 +433,8 @@
             observer.observe(el);
         });
 
-        // Register Service Worker
-        if ('serviceWorker' in navigator) {
+        // Service Worker only works on http/https, not file://
+        if ('serviceWorker' in navigator && location.protocol !== 'file:') {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/service-worker.js')
                     .then(reg => console.log('SW registered:', reg.scope))
@@ -495,6 +507,39 @@
     
     <!-- Sticky header and mobile menu script -->
     <script>
+        // Preload images before they become visible
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        if (img.dataset.src) {
+                            img.src = img.dataset.src;
+                            img.removeAttribute('data-src');
+                        }
+                        // Force load all images in the same carousel
+                        const carousel = img.closest('.carousel');
+                        if (carousel) {
+                            carousel.querySelectorAll('img[loading="lazy"]').forEach(lazyImg => {
+                                if (lazyImg.dataset.src) {
+                                    lazyImg.src = lazyImg.dataset.src;
+                                    lazyImg.removeAttribute('data-src');
+                                }
+                            });
+                        }
+                        observer.unobserve(img);
+                    }
+                });
+            }, {
+                rootMargin: '2000px' // Start loading 2000px before visible for instant display
+            });
+
+            // Observe all lazy images
+            document.querySelectorAll('img[loading="lazy"]').forEach(img => {
+                imageObserver.observe(img);
+            });
+        }
+
         // Sticky header on scroll
         window.addEventListener('scroll', () => {
             const header = document.querySelector('header');
@@ -515,7 +560,21 @@
             hamburger.classList.toggle('active');
             overlay.classList.toggle('active');
         }
-
+        // Close menu when clicking on nav links
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('header nav a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const nav = document.querySelector('nav');
+                    const hamburger = document.querySelector('.hamburger');
+                    const overlay = document.querySelector('.menu-overlay');
+                    
+                    nav.classList.remove('active');
+                    hamburger.classList.remove('active');
+                    overlay.classList.remove('active');
+                });
+            });
+        });
         // Close mobile menu when clicking on a link
         document.querySelectorAll('header nav a').forEach(link => {
             link.addEventListener('click', () => {
